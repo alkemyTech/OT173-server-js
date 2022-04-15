@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const organizations = require("./../data");
-const user = require("../models/user");
+
 
 /* GET organizations res listing. */
 router.get("/:id/public", function (req, res, next) {
