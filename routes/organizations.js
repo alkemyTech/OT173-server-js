@@ -1,19 +1,17 @@
-var express = require("express");
-var router = express.Router();
-const organizations = require("./../data");
-const user = require("../models/user");
+const express = require("express");
+const router = express.Router();
+const organizations = require("../mocks/organizationsMock");
 
-/* GET organizations res listing. */
 router.get("/:id/public", function (req, res, next) {
   const { id } = req.params;
 
   const organization = organizations.filter((t) => t.id == id);
 
-  if (organization.length === 0) {
+  if (!organization.length) {
     return res.status(200).json(organizations[0]);
-  } else {
-    return res.status(200).json(organization);
   }
+
+  return res.status(200).json(organization);
 });
 
 module.exports = router;
