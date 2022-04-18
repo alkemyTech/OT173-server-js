@@ -1,27 +1,21 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const db = require("../models");
 const bcrypt = require("bcryptjs");
-const { body, validationResult } = require("express-validator");
+const validationLogin = require("../validations/validationsLogin");
+
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
+router.get('/', function (req, res, next) {
+  res.send('respond with a resource');
 });
 
 /*Post user login*/
 router.post(
   "/auth/login",
+  validationLogin,
 
-  body("email", "Invalid email format").isEmail(),
-  body("password", "Must be at least 4 chars long").isLength({ min: 4 }),
-
-  async function (req, res, next) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
+  async function (req, res) {
     try {
       const user = await db.User.findOne({
         where: {
@@ -36,7 +30,7 @@ router.post(
       const comparePassword = bcrypt.compareSync(
         req.body.password,
         user.dataValues.password
-      ); // true
+      );
       if (!comparePassword) {
         return res.status(401).json({ msg: "Invalid username or password" });
       }
@@ -45,7 +39,7 @@ router.post(
 
       return res.status(200).json(userConfirm);
     } catch (error) {
-      res.json({ error, ok: false });
+      res.status(400).json({ error, ok: false });
     }
   }
 );
