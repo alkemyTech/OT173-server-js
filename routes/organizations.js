@@ -5,13 +5,13 @@ const organizations = require("../mocks/organizationsMock");
 router.get("/:id/public", function (req, res, next) {
   const { id } = req.params;
 
-  const organization = organizations.filter((t) => t.id == id);
+  const organizerProfile = organizations.find((t) => t.id == id);  
 
-  if (!organization.length) {
-    return res.status(200).json(organizations[0]);
+  if (!organizerProfile) {
+    return res.status(404).json({msg: "the organizer is not found"});
   }
 
-  return res.status(200).json(organization);
+  return res.status(200).json(organizerProfile);
 });
 
 module.exports = router;
