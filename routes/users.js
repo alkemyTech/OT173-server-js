@@ -3,7 +3,7 @@ const { createUser, getUsers, validationsRegisterUser } = require('../controller
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/users', getUsers);
+router.get('/', getUsers);
 
 router.post('/auth/register', validationsRegisterUser, createUser);
 

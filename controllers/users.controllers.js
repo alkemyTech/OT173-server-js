@@ -10,23 +10,26 @@ const getUsers = (req, res, next) => {
 }
 
 const createUser = async (req, res, next) => {
-    const { firstName, lastName, email, password } = req.body
+    const { firstName, lastName, email, password } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(password, saltRounds)
+    const passwordHash = encryptPassword(password);
 
-    await User(sequelize, DataTypes).create({
-        lastName,
-        firstName,
-        email,
-        password: passwordHash,
-    });
+    try {
+        await User(sequelize, DataTypes).create({
+            lastName,
+            firstName,
+            email,
+            password: passwordHash,
+        });
+        res.status(201).json({ mgs: "Usuario generado con éxito", user: firstName, lastName, email, passwordHash });
+    } catch (error) {
+        res.status(400).json(error);
+    }
 
-    res.status(201).json({ mgs: "Usuario generado con éxito", user: firstName, lastName, email, passwordHash })
 };
 
 const validationsRegisterUser = [
@@ -52,6 +55,11 @@ const validationsRegisterUser = [
         })
     })
 ];
+
+const encryptPassword = async (password) => {
+    const saltRounds = 10;
+    return await bcrypt.hash(password, saltRounds);
+};
 
 module.exports = {
     getUsers,
