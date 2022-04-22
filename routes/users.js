@@ -1,6 +1,6 @@
-var express = require('express');
-const { createUser, getUsers, validationsRegisterUser } = require('../controllers/users.controllers');
-var router = express.Router();
+const express = require('express');
+const { createUser, getUsers, validationsRegisterUser } = require('../controllers/usersControllers');
+const router = express.Router();
 
 /* GET users listing. */
 router.get('/', getUsers);

@@ -11,12 +11,12 @@ const getUsers = (req, res, next) => {
 
 const createUser = async (req, res, next) => {
     const { firstName, lastName, email, password } = req.body;
+    const passwordHash = await encryptPassword(password);
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
-    }
-
-    const passwordHash = encryptPassword(password);
+    };
 
     try {
         await User(sequelize, DataTypes).create({
@@ -28,8 +28,7 @@ const createUser = async (req, res, next) => {
         res.status(201).json({ mgs: "Usuario generado con éxito", user: firstName, lastName, email, passwordHash });
     } catch (error) {
         res.status(400).json(error);
-    }
-
+    };
 };
 
 const validationsRegisterUser = [
