@@ -25,25 +25,6 @@ router.post('/', function (req, res, next) {
       console.error(error)
     })
   res.send('respond with a resource');
-
-  //Esto en el form de contacto
-
-  // const { email, message, subject } = req.body
-  // const msg = {
-  //   to: 'juanmhdz99@gmail.com', // Change to your recipient
-  //   from: email, // Change to your verified sender
-  //   subject: subject,
-  //   text: message,
-  //   html: `<p>${message}</p>`,
-  // }
-  // sgMail
-  //   .send(msg)
-  //   .then(() => {
-  //     console.log('Email sent')
-  //   })
-  //   .catch((error) => {
-  //     console.error(error)
-  //   })
 });
 
 
