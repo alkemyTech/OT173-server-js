@@ -8,7 +8,7 @@ const postNews = async (req, res) => {
   const categoryId = 1;
 
   const newsToInsert = {
-    title: req.body.title,
+    name: req.body.name,
     content: req.body.content,
     image: req.body.image,
     type: 'news',
