@@ -4,7 +4,7 @@ const httpCodes = require('../constants/constants');
 
 const createUser = async (req, res, next) => {
     const { firstName, lastName, email, password } = req.body;
-    const passwordHash = await encryptPassword(password);
+    const passwordHash = await encryptPassword(toString(password));
 
     try {
         const user = await User.findOne({
