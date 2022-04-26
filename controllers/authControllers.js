@@ -1,29 +1,32 @@
-const User = require('../models/user');
-const { sequelize } = require('../models/index');
-const { validationResult } = require('express-validator');
-const bcrypt = require('bcrypt');
-const { DataTypes } = require('sequelize');
+const { User } = require('../models/index');
+const bcrypt = require('bcryptjs');
 const httpCodes = require('../constants/constants');
 
 const createUser = async (req, res, next) => {
     const { firstName, lastName, email, password } = req.body;
     const passwordHash = await encryptPassword(password);
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return res.status(httpCodes.BAD_REQUEST).json({ errors: errors.array() });
-    };
 
     try {
-        await User(sequelize, DataTypes).create({
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        });
+
+        if (user) {
+            return res.status(httpCodes.UNAUTHORIZED).json({ msg: "Ya existe un usuario con ese email" });
+        }
+
+        await User.create({
             lastName,
             firstName,
             email,
             password: passwordHash,
         });
-        res.status(httpCodes.OK).json({ mgs: "Usuario generado con éxito", user: firstName, lastName, email, passwordHash });
+
+        res.status(httpCodes.OK).json({ mgs: "Usuario registrado con éxito", user: firstName, lastName, email, passwordHash });
     } catch (error) {
-        res.status(httpCodes.BAD_REQUEST).json(error);
+        res.status(httpCodes.BAD_REQUEST).json({ error, ok: false });
     };
 };
 
