@@ -5,9 +5,10 @@ const bcrypt = require("bcryptjs");
 const validationLogin = require("../validations/validationsLogin");
 const httpCodes = require("../constants/constants");
 
+
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
+router.get('/', function (req, res, next) {
+  res.send('respond with a resource');
 });
 
 /*Post user login*/
@@ -24,9 +25,7 @@ router.post(
       });
 
       if (!user) {
-        return res
-          .status(httpCodes.UNAUTHORIZED)
-          .json({ msg: "Invalid username or password" });
+        return res.status(httpCodes.UNAUTHORIZED).json({ msg: "Invalid username or password" });
       }
 
       const comparePassword = bcrypt.compareSync(
@@ -34,9 +33,7 @@ router.post(
         user.dataValues.password
       );
       if (!comparePassword) {
-        return res
-          .status(httpCodes.UNAUTHORIZED)
-          .json({ msg: "Invalid username or password" });
+        return res.status(httpCodes.UNAUTHORIZED).json({ msg: "Invalid username or password" });
       }
 
       const { password, ...userConfirm } = user.dataValues;
