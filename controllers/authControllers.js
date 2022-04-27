@@ -3,10 +3,10 @@ const bcrypt = require('bcryptjs');
 const httpCodes = require('../constants/constants');
 
 const createUser = async (req, res, next) => {
-    const { firstName, lastName, email, password } = req.body;
-    const passwordHash = await encryptPassword(toString(password));
-
     try {
+        const { firstName, lastName, email, password } = req.body;
+        const passwordHash = await encryptPassword(toString(password));
+
         const user = await User.findOne({
             where: {
                 email: email
@@ -14,7 +14,8 @@ const createUser = async (req, res, next) => {
         });
 
         if (user) {
-            return res.status(httpCodes.UNAUTHORIZED).json({ msg: "Ya existe un usuario con ese email" });
+            return res.status(httpCodes.UNAUTHORIZED)
+                .json({ msg: "Ya existe un usuario con ese email" });
         }
 
         await User.create({
@@ -24,9 +25,11 @@ const createUser = async (req, res, next) => {
             password: passwordHash,
         });
 
-        res.status(httpCodes.OK).json({ mgs: "Usuario registrado con éxito", user: firstName, lastName, email, passwordHash });
+        res.status(httpCodes.OK)
+            .json({ msg: "Usuario registrado con éxito", user: firstName, lastName, email, passwordHash });
     } catch (error) {
-        res.status(httpCodes.BAD_REQUEST).json({ error, ok: false });
+        res.status(httpCodes.BAD_REQUEST)
+            .json({ error, ok: false });
     };
 };
 
