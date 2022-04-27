@@ -8,8 +8,9 @@ require('dotenv').config()
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const awmRouter = require('./routes/s3')
 
+
+const awmRouter = require('./routes/s3')
 const app = express();
 app.use(cors())
 
