@@ -13,9 +13,8 @@ const getNewsById = async (req, res, next) => {
         });
 
         if (!response) {
-            res.status(httpCodes.BAD_REQUEST)
+            return res.status(httpCodes.BAD_REQUEST)
                 .json({ msg: 'There is no news for that ID' })
-            return
         }
 
         res.status(httpCodes.OK)
