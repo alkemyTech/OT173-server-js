@@ -1,6 +1,6 @@
 const sgMail = require('@sendgrid/mail')
 
-export const sendMail = ({ name, surname, email, message, subject, recipient }) => {
+const sendMail = async ({ name, surname, email, message, subject, recipient }) => {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY)
     const msg = {
         to: recipient || email,
@@ -17,12 +17,12 @@ export const sendMail = ({ name, surname, email, message, subject, recipient }) 
             <p>${message}</p>` : `<p>${message}</p>`}`,
         replyTo: email
     }
-    sgMail
-        .send(msg)
-        .then(() => {
-            console.log('Email sent')
-        })
-        .catch((error) => {
-            console.error(error)
-        })
+    try {
+        const emailSent = await sgMail.send(msg)
+        return emailSent
+    } catch (error) {
+        console.log(error)
+    }
 }
+
+module.exports = { sendMail }
