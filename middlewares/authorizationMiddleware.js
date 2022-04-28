@@ -18,7 +18,7 @@ module.exports = () => {
                 if (decoded.user && decoded.user.roleId === 1) {
                     next()
                 } else {
-                    return res.status(httpCodes.UNAUTHORIZED).send('Access denied')
+                    return res.status(httpCodes.FORBIDDEN).send('Access denied')
                 }
             })
         }

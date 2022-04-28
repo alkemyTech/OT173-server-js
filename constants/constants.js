@@ -1,8 +1,9 @@
 const httpCodes = {
-    OK : 200,
+    OK: 200,
     BAD_REQUEST: 400,
     UNAUTHORIZED: 401,
-    NOT_FOUND : 404,
- }
+    FORBIDDEN: 403,
+    NOT_FOUND: 404,
+}
 
- module.exports = httpCodes;
+module.exports = httpCodes;
