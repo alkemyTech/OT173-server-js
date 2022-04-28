@@ -5,8 +5,6 @@ module.exports = {
     await queryInterface.bulkInsert('Categories', [{
       name: 'categoriesTest',
       description: 'Categories-descriptions-demo',   
-      createdAt: new Date,
-      updatedAt: new Date
     }], {});
   },
 

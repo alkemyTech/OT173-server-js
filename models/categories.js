@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   };
   Categories.init({
     name: DataTypes.STRING,
-    description: DataTypes.STRING
+    description: DataTypes.STRING,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Categories',
