@@ -1,7 +1,7 @@
 const express = require('express');
-const { getNewsById } = require('../controllers/newsControllers.js');
 const router = express.Router();
 const { Entries } = require('../models/index.js')
+const { getNewsById } = require('../controllers/newsControllers.js');
 
 router.get('/', async function (req, res, next) {
     try {
