@@ -10,6 +10,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const newsRouter = require('./routes/news')
 const organizationsRouter = require('./routes/organizations');
+const authRouter = require('./routes/auth');
 
 
 const awmRouter = require('./routes/s3')
@@ -31,6 +32,7 @@ app.use('/users', usersRouter);
 app.use(awmRouter);
 app.use('/news', newsRouter)
 app.use('/organizations', organizationsRouter);
+app.use('/auth', authRouter);
 
 
 // catch 404 and forward to error handler
