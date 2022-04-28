@@ -2,9 +2,8 @@ const httpCodes = require("../constants/constants");
 const { Entries } = require('../models/index.js');
 
 const getNewsById = async (req, res, next) => {
-    const { id } = req.params;
-
     try {
+        const { id } = req.params;
         const response = await Entries.findOne({
             where: {
                 id,
