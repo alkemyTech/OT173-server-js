@@ -1,18 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { Entries } = require("../models/index.js");
-const httpCodes = require("../constants/constants");
-router.get("/", async function (req, res, next) {
-  try {
-    const allNews = await Entries.findAll({ where: { type: "news" } });
-    const news = allNews.map((n) => {
-      n.id, n.name, n.image, n.createdAt;
-    });
-    res.send(news);
-  } catch (error) {
-    res.send(error);
-  }
-});
+const { Entries } = require('../models/index.js')
+const { getNewsById } = require('../controllers/newsControllers.js');
 
 router.put("/:id", async (req, res, next) => {
   const { name, content, image, type } = req.body;
@@ -42,5 +31,7 @@ router.put("/:id", async (req, res, next) => {
     res.status(httpCodes.BAD_REQUEST).json({ error, ok: false });
   }
 });
+
+router.get('/:id', getNewsById);
 
 module.exports = router;
