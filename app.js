@@ -8,8 +8,8 @@ require('dotenv').config()
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const newsRouter = require('./routes/news')
 const organizationsRouter = require('./routes/organizations');
+const newsRouter = require('./routes/news');
 const authRouter = require('./routes/auth');
 
 
