@@ -11,28 +11,31 @@ router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-router.delete("/:id", (req, res) => {
-  
-  db.User.destroy({ where : { id: +req.params.id } })
-      .then(response => {
-        let confirm = {}
+router.delete("/:id", async (req, res) => {
 
-        switch (typeof response != "undefined") {
-          case response === 1:
-            confirm = {
-              msg: "User deleted successfully.",
-              url: "http://localhost:3000/users/" + req.params.id
-            }
-            res.status(httpCodes.OK).json(confirm)
-          default:
-            confirm = {
-              msg: "An error occurred. Try again.",
-              url: "http://localhost:3000/users/" + req.params.id
-            }
-            res.status(httpCodes.BAD_REQUEST).json(confirm)
+  let response = await db.User.destroy({ where: { id: req.params.id } })
+
+  try {
+    let confirm = {}
+
+    switch (typeof response != "undefined") {
+      case response === 1:
+        confirm = {
+          msg: "User deleted successfully.",
+          url: "http://localhost:3000/users/" + req.params.id
         }
-      })
-      .catch(err => res.status(httpCodes.BAD_REQUEST).json({msg: "An error occurred.", err: JSON.stringify(err)}))
+        res.status(httpCodes.OK).json(confirm)
+      default:
+        confirm = {
+          msg: "An error occurred. Try again.",
+          url: "http://localhost:3000/users/" + req.params.id
+        }
+        res.status(httpCodes.BAD_REQUEST).json(confirm)
+    }
+
+  } catch (error) {
+    res.status(httpCodes.BAD_REQUEST).json({ msg: "An error occurred.", err: JSON.stringify(error) })
+  }
 })
 /*Post user login*/
 router.post(
