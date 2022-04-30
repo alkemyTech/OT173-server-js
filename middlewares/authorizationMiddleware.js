@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const httpCodes = require('../constants/constants')
 
-module.exports = () => {
+const authRole = () => {
     return (req, res, next) => {
         const token = req.headers['authorization']
         if (!token) {
@@ -24,3 +24,4 @@ module.exports = () => {
         }
     }
 }
+module.exports = {authRole}

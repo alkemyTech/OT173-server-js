@@ -4,11 +4,16 @@ const db = require("../models");
 const bcrypt = require("bcryptjs");
 const validationLogin = require("../validations/validationsLogin");
 const httpCodes = require("../constants/constants");
-
+const {authRole} = require('../middlewares/authorizationMiddleware');
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+router.get('/',authRole(), async (req, res, next) => {
+   try{
+      const result = await db.User.findAll();
+      res.send(result)
+    } catch(error) {
+      res.send(error)
+    } 
 });
 
 /*Post user login*/
