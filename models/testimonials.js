@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      User.belongsTo(models.Role, {as: 'role'});
+      Testimony.belongsTo(models.User, {as: 'role'});
     }
   };
-  User.init({
+  Testimony.init({
     name: DataTypes.STRING,
     image: DataTypes.STRING,
     content: DataTypes.TEXT
