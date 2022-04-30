@@ -12,8 +12,6 @@ const newsRouter = require('./routes/news')
 const organizationsRouter = require('./routes/organizations');
 const authRouter = require('./routes/auth');
 
-
-const awmRouter = require('./routes/s3')
 const app = express();
 app.use(cors())
 
@@ -29,7 +27,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use(awmRouter);
 app.use('/news', newsRouter)
 app.use('/organizations', organizationsRouter);
 app.use('/auth', authRouter);
