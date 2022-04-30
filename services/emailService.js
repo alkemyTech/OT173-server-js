@@ -17,11 +17,19 @@ const sendMail = async ({ name, surname, email, message, subject, recipient }) =
             <p>${message}</p>` : `<p>${message}</p>`}`,
         replyTo: email
     }
+    let status = {
+        error: false,
+        message: `Email sent to ${email}`
+    }
     try {
-        const emailSent = await sgMail.send(msg)
-        return emailSent
-    } catch (error) {
-        console.log(error)
+        await sgMail.send(msg)
+    } catch (err) {
+        status = {
+            error: true,
+            message: err
+        }
+    } finally {
+        return status
     }
 }
 
