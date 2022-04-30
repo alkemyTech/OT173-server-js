@@ -25,16 +25,18 @@ const getNewsById = async (req, res, next) => {
 };
 
 const postNews = async (req, res) => {
+  const { name, content, image, category } = req.body;
+  
   const newsToInsert = {
-    name: req.body.name,
-    content: req.body.content,
-    image: req.body.image,
+    name,
+    content,
+    image,
     type: 'news',
   };
 
   try {
     const categoryFromDB = await Categories.findOne({
-      where: { name: req.body.category },
+      where: { name: category },
     });
     if (!categoryFromDB)
       return res
