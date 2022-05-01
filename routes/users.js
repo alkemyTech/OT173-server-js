@@ -12,7 +12,7 @@ router.get('/',authRole(), async (req, res, next) => {
       const result = await db.User.findAll();
       res.send(result)
     } catch(error) {
-      res.send(error)
+      res.status(httpCodes.BAD_REQUEST).json({ error });
     } 
 });
 
