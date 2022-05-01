@@ -1,6 +1,9 @@
 const { User } = require('../models/index');
 const bcrypt = require('bcryptjs');
+
 const httpCodes = require('../constants/constants');
+const { userSingUp } = require('../constants/mailMessages');
+const { sendMail } = require('../services/emailService');
 
 const createUser = async (req, res, next) => {
   try {
@@ -24,6 +27,14 @@ const createUser = async (req, res, next) => {
       firstName,
       email,
       password: passwordHash,
+    });
+
+    await sendMail({
+      name: firstName,
+      surname: lastName,
+      email,
+      subject: userSingUp.subject,
+      message: userSingUp.message,
     });
 
     res.status(httpCodes.OK).json({
