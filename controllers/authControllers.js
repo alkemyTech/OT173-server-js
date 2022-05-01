@@ -16,7 +16,7 @@ const createUser = async (req, res, next) => {
     if (user) {
       return res
         .status(httpCodes.UNAUTHORIZED)
-        .json({ msg: 'Ya existe un usuario con ese email' });
+        .json({ ok: false, msg: 'Ya existe un usuario con ese email' });
     }
 
     await User.create({
@@ -26,15 +26,14 @@ const createUser = async (req, res, next) => {
       password: passwordHash,
     });
 
-    res
-      .status(httpCodes.OK)
-      .json({
-        msg: 'Usuario registrado con éxito',
-        user: firstName,
-        lastName,
-        email,
-        passwordHash,
-      });
+    res.status(httpCodes.OK).json({
+      ok: true,
+      msg: 'Usuario registrado con éxito',
+      user: firstName,
+      lastName,
+      email,
+      passwordHash,
+    });
   } catch (error) {
     res.status(httpCodes.BAD_REQUEST).json({ error, ok: false });
   }
