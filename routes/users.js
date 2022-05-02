@@ -13,30 +13,17 @@ router.get('/', function (req, res, next) {
 
 router.delete("/:id", async (req, res) => {
 
-  let response = await db.User.destroy({ where: { id: req.params.id } })
-
   try {
-    let confirm = {}
-
-    switch (typeof response != "undefined") {
-      case response === 1:
-        confirm = {
-          msg: "User deleted successfully.",
-          url: "http://localhost:3000/users/" + req.params.id
-        }
-        res.status(httpCodes.OK).json(confirm)
-      default:
-        confirm = {
-          msg: "An error occurred. Try again.",
-          url: "http://localhost:3000/users/" + req.params.id
-        }
-        res.status(httpCodes.BAD_REQUEST).json(confirm)
-    }
+    const response = await db.User.destroy({ where: { id: req.params.id } })
+    
+    response === 0 && res.status(httpCodes.BAD_REQUEST).json({ msg: "An error occurred. Try again." })
+    || res.status(httpCodes.OK).json({ msg: "User deleted successfully." })
 
   } catch (error) {
-    res.status(httpCodes.BAD_REQUEST).json({ msg: "An error occurred.", err: JSON.stringify(error) })
+    res.status(httpCodes.BAD_REQUEST).json({ error, ok: false })
   }
 })
+
 /*Post user login*/
 router.post(
   "/auth/login",
