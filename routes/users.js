@@ -39,9 +39,14 @@ router.post(
 
       const { password, ...userConfirm } = user.dataValues;
 
-      const token = createToken(userConfirm)
+      let token = createToken(userConfirm)
 
-      return res.status(httpCodes.OK).json(token);
+      if(token?.ok) {
+        return res.status(httpCodes.OK).json(token);
+      }
+
+      return res.status(httpCodes.UNAUTHORIZED).json(token)
+
     } catch (error) {
       res.status(httpCodes.BAD_REQUEST).json({ error, ok: false });
     }
