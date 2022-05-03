@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { Entries } = require('../models/index.js')
+
+const { Entries } = require('../models/index.js');
+const { validateNews } = require('../validations/validationNews.js');
+const { getNewsById, postNews } = require('../controllers/newsControllers.js');
 
 router.get('/', async function (req, res, next) {
     try {
@@ -18,5 +21,8 @@ router.get('/', async function (req, res, next) {
         res.send(error)
     }
 });
+
+router.post('/', validateNews, postNews);
+router.get('/:id', getNewsById);
 
 module.exports = router;
