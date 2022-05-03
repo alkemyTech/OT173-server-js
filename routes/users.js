@@ -14,10 +14,16 @@ router.get('/', function (req, res, next) {
 router.delete("/:id", async (req, res) => {
 
   try {
-    const response = await db.User.destroy({ where: { id: req.params.id } })
+    const response = await db.User.destroy({ 
+      where: { 
+        id: req.params.id 
+      } 
+    })
     
-    response === 0 && res.status(httpCodes.BAD_REQUEST).json({ msg: "An error occurred. Try again." })
-    || res.status(httpCodes.OK).json({ msg: "User deleted successfully." })
+    if(response === 1){
+      return res.status(httpCodes.OK).json({ msg: "User deleted successfully." })
+    }
+    return res.status(httpCodes.BAD_REQUEST).json({ msg: "An error occurred. Try again." })
 
   } catch (error) {
     res.status(httpCodes.BAD_REQUEST).json({ error, ok: false })
