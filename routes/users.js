@@ -4,6 +4,7 @@ const db = require("../models");
 const bcrypt = require("bcryptjs");
 const validationLogin = require("../validations/validationsLogin");
 const httpCodes = require("../constants/constants");
+const { createToken, verifyToken, bearerToken } = require("../auth/auth");
 
 
 /* GET users listing. */
@@ -38,7 +39,14 @@ router.post(
 
       const { password, ...userConfirm } = user.dataValues;
 
-      return res.status(httpCodes.OK).json(userConfirm);
+      let token = createToken(userConfirm)
+
+      if(token?.ok) {
+        return res.status(httpCodes.OK).json(token);
+      }
+
+      return res.status(httpCodes.UNAUTHORIZED).json(token)
+
     } catch (error) {
       res.status(httpCodes.BAD_REQUEST).json({ error, ok: false });
     }

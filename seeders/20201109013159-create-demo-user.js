@@ -12,6 +12,17 @@ module.exports = {
       image: 'https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png',
       createdAt: new Date,
       updatedAt: new Date
+    },
+    {
+      firstName: 'Usuario',
+      lastName: 'Demo',
+      email: 'user@user.com',
+      // Important: Password not encrypted yet! 
+      password: '12345678',
+      roleId: 1,
+      image: 'https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png',
+      createdAt: new Date,
+      updatedAt: new Date
     }], {});
   },
 
