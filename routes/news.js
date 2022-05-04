@@ -1,9 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-
 const { Entries } = require('../models/index.js');
 const { validateNews } = require('../validations/validationNews.js');
-const { getNewsById, postNews } = require('../controllers/newsControllers.js');
+const { getNewsById, postNews,updateNew } = require('../controllers/newsControllers.js');
+const auth = require("../middlewares/authorizationMiddleware.js")
 
 router.get('/', async function (req, res, next) {
   try {
@@ -22,5 +22,5 @@ router.get('/', async function (req, res, next) {
 
 router.post('/', validateNews, postNews);
 router.get('/:id', getNewsById);
-
+router.put("/:id",auth,updateNew)
 module.exports = router;
