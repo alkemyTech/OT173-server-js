@@ -1,5 +1,7 @@
 const { Activity } = require('../models/index.js');
 
+const httpCodes = require('../constants/constants');
+
 const getActivities = async function (req, res) {
   try {
     const activities = await Activity.findAll();
@@ -20,12 +22,14 @@ const getActivity = async function (req, res) {
     const activity = await Activity.findByPk(id);
 
     if (!activity) {
-      return res.status(404).json({ msg: 'Activity not found' });
+      return res
+        .status(httpCodes.NOT_FOUND)
+        .json({ msg: 'Activity not found' });
     }
 
     return res.json(activity);
   } catch (error) {
-    res.status(500).json({ msg: error.message });
+    res.status(httpCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
   }
 };
 
