@@ -1,7 +1,7 @@
 const httpCodes = require('../constants/constants');
 const { Testimonial } = require('../models/index.js');
 
-const editTestimonial = async (req, res) => {
+const updateTestimonial = async (req, res) => {
   const { name, image, content } = req.body;
   const { id } = req.params;
 
@@ -28,4 +28,4 @@ const editTestimonial = async (req, res) => {
   }
 };
 
-module.exports = { editTestimonial };
+module.exports = { updateTestimonial };
