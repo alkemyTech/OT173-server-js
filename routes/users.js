@@ -7,7 +7,7 @@ const httpCodes = require("../constants/constants");
 const {authRole} = require('../middlewares/authorizationMiddleware');
 
 /* GET users listing. */
-router.get('/',authRole(), async (req, res, next) => {
+router.get('/',authRole , async (req, res, next) => {
    try{
       const result = await db.User.findAll();
       res.send(result)
