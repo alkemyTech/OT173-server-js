@@ -74,7 +74,8 @@ const updateNew = async (req, res, next) => {
       },
       {
         where: {
-          categoryId: id,
+          id,
+          type: 'news'
         },
         returning: true,
         plain: true,
