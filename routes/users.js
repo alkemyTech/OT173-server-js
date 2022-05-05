@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const validationLogin = require("../validations/validationsLogin");
 const httpCodes = require("../constants/constants");
 const { createToken, verifyToken, bearerToken } = require("../auth/auth");
+const {authRole} = require('../middlewares/authorizationMiddleware')
 
 
 /* GET users listing. */
