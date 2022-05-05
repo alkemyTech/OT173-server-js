@@ -17,7 +17,7 @@ router.get('/auth/me', function (req, res, next) {
   const token = req.headers['authorization']
   try {
     const verify = verifyToken(token);
-    return  res.send(jwt.decode(token));
+    return  res.json(jwt.decode(token));
   }catch (error) {
     res.status(httpCodes.BAD_REQUEST).json({ error, ok: false })
   }      
