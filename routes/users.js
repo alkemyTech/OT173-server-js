@@ -4,7 +4,8 @@ const db = require("../models");
 const bcrypt = require("bcryptjs");
 const validationLogin = require("../validations/validationsLogin");
 const httpCodes = require("../constants/constants");
-const {authRole} = require('../middlewares/authorizationMiddleware');
+const { createToken, verifyToken, bearerToken } = require("../auth/auth");
+
 
 /* GET users listing. */
 router.get('/',authRole , async (req, res, next) => {
@@ -15,6 +16,25 @@ router.get('/',authRole , async (req, res, next) => {
       res.status(httpCodes.BAD_REQUEST).json({ error });
     } 
 });
+
+router.delete("/:id", async (req, res) => {
+
+  try {
+    const response = await db.User.destroy({ 
+      where: { 
+        id: req.params.id 
+      } 
+    })
+    
+    if(response === 1){
+      return res.status(httpCodes.OK).json({ msg: "User deleted successfully." })
+    }
+    return res.status(httpCodes.BAD_REQUEST).json({ msg: "An error occurred. Try again." })
+
+  } catch (error) {
+    res.status(httpCodes.BAD_REQUEST).json({ error, ok: false })
+  }
+})
 
 /*Post user login*/
 router.post(
@@ -43,7 +63,14 @@ router.post(
 
       const { password, ...userConfirm } = user.dataValues;
 
-      return res.status(httpCodes.OK).json(userConfirm);
+      let token = createToken(userConfirm)
+
+      if(token?.ok) {
+        return res.status(httpCodes.OK).json(token);
+      }
+
+      return res.status(httpCodes.UNAUTHORIZED).json(token)
+
     } catch (error) {
       res.status(httpCodes.BAD_REQUEST).json({ error, ok: false });
     }

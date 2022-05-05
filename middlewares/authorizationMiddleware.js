@@ -13,7 +13,7 @@ const authRole = (req, res, next) => {
                     return res.status(httpCodes.UNAUTHORIZED).send('Access denied')
                 }
 
-                if (decoded.user && decoded.user.roleId === 1) {
+                if (decoded.roleId === 1) {
                     next()
                 } else {
                     return res.status(httpCodes.FORBIDDEN).send('Access denied')
