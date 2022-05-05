@@ -3,6 +3,7 @@ const router = express.Router();
 const httpCodes = require("../constants/constants.js");
 const validationTestimonial = require("../validations/validationsTestimonial.js");
 const {Testimonial} = require("../models/index.js");
+const {updateTestimonial} = require('../controllers/testimonialsControllers.js');
 
 router.post('/',validationTestimonial ,async function (req, res, next) {
     const {name, image, content} = req.body
@@ -17,4 +18,6 @@ router.post('/',validationTestimonial ,async function (req, res, next) {
  
 });
 
-module.exports = router
+router.put('/:id', updateTestimonial);
+
+module.exports = router;
