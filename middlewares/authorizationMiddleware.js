@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken')
 const httpCodes = require('../constants/constants')
 
-module.exports = () => {
-    return (req, res, next) => {
+const authRole = (req, res, next) => {
         const token = req.headers['authorization']
         if (!token) {
             return res.status(httpCodes.UNAUTHORIZED).send('Access denied')
@@ -23,4 +22,5 @@ module.exports = () => {
             })
         }
     }
-}
+
+module.exports = {authRole};
