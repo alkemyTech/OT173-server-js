@@ -6,7 +6,7 @@ const { authRole } = require('../middlewares/authorizationMiddleware');
 router.get('/', authRole, async (req, res, next) => {
   try {
     const result = await db.Contact.findAll();
-    res.send(result);
+    res.json(result);
   } catch (error) {
     res.status(httpCodes.BAD_REQUEST).json({ error });
   }
