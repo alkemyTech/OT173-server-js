@@ -4,7 +4,7 @@ module.exports = {
     createToken: (user) => {
         try {
             if (user) {
-                let token = jwt.sign(user, "secretKey", { expiresIn: "1h" })
+                let token = jwt.sign({user}, "secretKey", { expiresIn: "1h" })
 
                 if (!token.error) {
                     return {

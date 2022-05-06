@@ -7,7 +7,6 @@ const authRole = (req, res, next) => {
             return res.status(httpCodes.UNAUTHORIZED).send('Access denied')
         } else {
             const tokenBody = token.slice(7)
-
             jwt.verify(tokenBody, 'secretKey', (err, decoded) => {
                 if (err) {
                     console.log(`JWT error: ${err}`)
@@ -23,4 +22,4 @@ const authRole = (req, res, next) => {
         }
     }
 
-module.exports = {authRole};
+module.exports = {authRole}

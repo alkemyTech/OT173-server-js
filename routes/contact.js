@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {addContact} = require("../controllers/contactController.js")
+const addContact = require("../controllers/contactController.js")
 const validationContact = require("../validations/validationContact.js")
 const db = require('../models');
 const { authRole } = require('../middlewares/authorizationMiddleware');
