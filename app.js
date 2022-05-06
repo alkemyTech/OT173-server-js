@@ -11,7 +11,7 @@ const usersRouter = require('./routes/users');
 const organizationsRouter = require('./routes/organizations');
 const newsRouter = require('./routes/news');
 const authRouter = require('./routes/auth');
-const contactRouter = require('./routes/contacts'); 
+const contactRouter = require('./routes/contact'); 
 const testimonialsRouter = require('./routes/testimonials');
 const activitiesRouter = require('./routes/activities');
 
