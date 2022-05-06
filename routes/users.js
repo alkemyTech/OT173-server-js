@@ -5,11 +5,29 @@ const bcrypt = require("bcryptjs");
 const validationLogin = require("../validations/validationsLogin");
 const httpCodes = require("../constants/constants");
 const { createToken, verifyToken, bearerToken } = require("../auth/auth");
+const jwt = require("jsonwebtoken");
+const {authRole} = require('../middlewares/authorizationMiddleware')
 
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+router.get('/',authRole , async (req, res, next) => {
+   try{
+      const result = await db.User.findAll();
+      res.send(result)
+    } catch(error) {
+      res.status(httpCodes.BAD_REQUEST).json({ error });
+    } 
+});
+
+/* GET specific user verify */
+router.get('/auth/me', function (req, res, next) {
+  const token = req.headers['authorization']
+  try {
+    const verify = verifyToken(token);
+    return  res.json(jwt.decode(token));
+  }catch (error) {
+    res.status(httpCodes.BAD_REQUEST).json({ error, ok: false })
+  }      
 });
 
 router.delete("/:id", async (req, res) => {

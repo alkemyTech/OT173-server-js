@@ -4,7 +4,7 @@ const { validationErrors } = require("./validationResults");
 const validationContact = [
     check("name","Name is Empty").not().isEmpty(),
     check("email", "Email is Empty").not().isEmpty(),
-    check("email", "Invalid Email").not().isEmail(),
+    check("email", "Invalid Email").isEmail(),
     validationErrors,
   ];
   
