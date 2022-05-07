@@ -62,31 +62,45 @@ const postNews = async (req, res) => {
 };
 
 const updateNew = async (req, res, next) => {
-  const { name, content, image, type } = req.body;
+  const { category } = req.body;
   const { id } = req.params;
   try {
+    let categoryFromDB = {}
+
+    if(category) {
+
+      categoryFromDB = await Categories.findOne({
+        where: { name: category }
+      });
+      
+      if (!categoryFromDB)
+        return res
+          .status(httpCodes.BAD_REQUEST)
+          .json({ msg: 'Category not found' });
+    }
+
     const updatedNew = await Entries.update(
       {
-        name,
-        content,
-        image,
-        type,
+        ...req.body,
+        categoryId: categoryFromDB?.dataValues?.id
       },
       {
         where: {
-          id: id,
+          id: id
         },
         returning: true,
         plain: true,
       }
     );
-    if (!updatedNew)
+    if (!updatedNew){
       return res
         .status(httpCodes.UNAUTHORIZED)
         .json({ msg: "Invalid username or password" });
-    res.status(httpCodes.OK).json(updatedNew);
+    }
+    return res.status(httpCodes.OK).json({msg:"Updated successfully", updatedNew});
   } catch (err) {
-    res.status(httpCodes.BAD_REQUEST).json({ error, ok: false });
+    
+    return res.status(httpCodes.BAD_REQUEST).json({ err, ok: false });
   }
 }
 
