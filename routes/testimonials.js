@@ -7,8 +7,7 @@ const {updateTestimonial} = require('../controllers/testimonialsControllers.js')
 
 router.post('/',validationTestimonial ,async function (req, res, next) {
     const {name, image, content} = req.body
-        console.log('',name, image, content )
-  
+    
     try {
         const newTestimonial = await Testimonial.create({name, image, content})        
         res.status(httpCodes.OK).json({error:false})
