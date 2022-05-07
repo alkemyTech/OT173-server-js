@@ -24,5 +24,5 @@ router.get('/', async function (req, res, next) {
 
 router.post('/', validateNews, postNews);
 router.get('/:id', getNewsById);
-router.put("/:id", auth, updateNew)
+router.patch("/:id", auth, updateNew)
 module.exports = router;

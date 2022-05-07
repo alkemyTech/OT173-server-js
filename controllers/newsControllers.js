@@ -62,7 +62,7 @@ const postNews = async (req, res) => {
 };
 
 const updateNew = async (req, res, next) => {
-  const { category, ...newsBody } = req.body;
+  const { name, category, image, content, type } = req.body;
   const { id } = req.params;
   
   try {
@@ -82,8 +82,10 @@ const updateNew = async (req, res, next) => {
 
     const updatedNew = await Entries.update(
       {
-        ...newsBody,
-        categoryId: categoryFromDB?.dataValues?.id
+        name,
+        image,
+        categoryId: categoryFromDB?.dataValues?.id,
+        content
       },
       {
         where: {
@@ -100,7 +102,6 @@ const updateNew = async (req, res, next) => {
     }
     return res.status(httpCodes.OK).json({msg:"Updated successfully", updatedNew});
   } catch (err) {
-    
     return res.status(httpCodes.BAD_REQUEST).json({ err, ok: false });
   }
 }
