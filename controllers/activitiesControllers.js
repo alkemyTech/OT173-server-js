@@ -47,12 +47,11 @@ const editActivity = async function (req, res) {
 
 const createActivity = async (req, res) => {
 
-  const { name, content } = req.body;
-
   try {
-    if (name && content) {
-      const newActivity = await Activity.create({ name, content })
-      console.log(newActivity)
+    if (req.body) {
+      const newActivity = await Activity.create({ 
+        ...req.body
+       })
 
       if (!newActivity) {
         res.status(httpCodes.BAD_REQUEST)
@@ -64,12 +63,12 @@ const createActivity = async (req, res) => {
 
       res.status(httpCodes.OK)
         .json({
-          msg: "Activiry created successfully.",
+          msg: "Activity created successfully.",
           newActivity
         })
     } else {
       res.status(httpCodes.NOT_FOUND)
-        .json("You must enter name and content fields.")
+        .json({msg: "You must enter name and content fields."})
     }
 
   } catch (error) {

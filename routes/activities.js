@@ -3,7 +3,8 @@ const router = express.Router();
 const {
     getActivities,
   getActivity,
-  editActivity
+  editActivity,
+  createActivity
 } = require('../controllers/activitiesControllers');
 
 router.get('/', getActivities);
