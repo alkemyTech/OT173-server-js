@@ -62,8 +62,9 @@ const postNews = async (req, res) => {
 };
 
 const updateNew = async (req, res, next) => {
-  const { category } = req.body;
+  const { category, ...newsBody } = req.body;
   const { id } = req.params;
+  
   try {
     let categoryFromDB = {}
 
@@ -81,7 +82,7 @@ const updateNew = async (req, res, next) => {
 
     const updatedNew = await Entries.update(
       {
-        ...req.body,
+        ...newsBody,
         categoryId: categoryFromDB?.dataValues?.id
       },
       {
