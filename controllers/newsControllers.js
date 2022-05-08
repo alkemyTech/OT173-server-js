@@ -95,8 +95,10 @@ const deleteNew = async (req, res, next) => {
 
   try {
     const response = await Entries.findOne({
-      where: id,
-      type: "news"
+      where: {
+        id,
+        type: "news"
+      }
     });
 
     if (!response) {
