@@ -47,11 +47,15 @@ const editActivity = async function (req, res) {
 
 const createActivity = async (req, res) => {
 
+  const { name, image, content } = req.body;
+
   try {
     if (req.body) {
-      const newActivity = await Activity.create({ 
-        ...req.body
-       })
+      const newActivity = await Activity.create({
+        name,
+        image,
+        content
+      })
 
       if (!newActivity) {
         res.status(httpCodes.BAD_REQUEST)
@@ -68,11 +72,10 @@ const createActivity = async (req, res) => {
         })
     } else {
       res.status(httpCodes.NOT_FOUND)
-        .json({msg: "You must enter name and content fields."})
+        .json({ msg: "You must enter name and content fields." })
     }
 
   } catch (error) {
-    console.log(error)
     res.status(httpCodes.FORBIDDEN)
       .json({
         error,
