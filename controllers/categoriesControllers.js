@@ -1,5 +1,5 @@
-const { Categories } = require('../models/index.js');
 const httpCodes = require('../constants/constants');
+const { Categories } = require('../models/index.js');
 
 const deleteCategory = async function (req, res) {
     try {
@@ -27,7 +27,24 @@ const getCategories = async function (req, res) {
     }
 };
 
+const addCategory = async function(req, res){
+
+    const {name, description} = req.body
+
+    try {
+        await Categories.create({
+            name, description
+          });
+        
+        res.status(httpCodes.OK).json({ msg: "Category created successfully" });
+        
+    } catch (error) {
+        res.status(httpCodes.BAD_REQUEST).json({ msg: error.message });
+    }
+}
+
 module.exports = {
     getCategories,
-    deleteCategory
+    deleteCategory,
+    addCategory
 };
