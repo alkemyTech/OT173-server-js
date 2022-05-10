@@ -24,7 +24,7 @@ router.get('/', async function (req, res, next) {
 
 router.post('/', validateNews, postNews);
 router.get('/:id', getNewsById);
-router.put("/:id", updateNew);
+router.put("/:id", auth, updateNew);
 router.delete("/:id", deleteNew);
 
 module.exports = router;
