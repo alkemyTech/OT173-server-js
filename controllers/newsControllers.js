@@ -2,31 +2,31 @@ const httpCodes = require("../constants/constants");
 const { Entries, Categories } = require('../models/index.js');
 
 const getNewsById = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const response = await Entries.findOne({
-            where: {
-                id,
-                type: 'news'
-            },
-        });
+  try {
+    const { id } = req.params;
+    const response = await Entries.findOne({
+      where: {
+        id,
+        type: 'news'
+      },
+    });
 
-        if (!response) {
-            return res.status(httpCodes.BAD_REQUEST)
-                .json({ msg: 'There is no news for that ID' })
-        }
-
-        res.status(httpCodes.OK)
-            .json(response);
-    } catch (error) {
-        res.status(httpCodes.BAD_REQUEST)
-            .json({ error, ok: false });
+    if (!response) {
+      return res.status(httpCodes.BAD_REQUEST)
+        .json({ msg: 'There is no news for that ID' })
     }
+
+    res.status(httpCodes.OK)
+      .json(response);
+  } catch (error) {
+    res.status(httpCodes.BAD_REQUEST)
+      .json({ error, ok: false });
+  }
 };
 
 const postNews = async (req, res) => {
   const { name, content, image, category } = req.body;
-  
+
   const newsToInsert = {
     name,
     content,
@@ -106,9 +106,41 @@ const updateNew = async (req, res, next) => {
   }
 }
 
+const deleteNew = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const response = await Entries.findOne({
+      where: {
+        id,
+        type: "news"
+      }
+    });
+
+    if (!response) {
+      return res
+        .status(httpCodes.NOT_FOUND)
+        .json({ ok: false, msg: 'There is no news for that ID' })
+    }
+
+    await Entries.destroy({
+      where: {
+        id,
+        type: "news"
+      }
+    });
+    return res
+      .status(httpCodes.OK)
+      .json({ ok: true, msg: "News removed successfully" });
+
+  } catch (error) {
+    res.status(httpCodes.BAD_REQUEST).json({ ok: false, error });
+  }
+}
 
 module.exports = {
-    getNewsById,
-    postNews,
-    updateNew
+  getNewsById,
+  postNews,
+  updateNew,
+  deleteNew
 }
