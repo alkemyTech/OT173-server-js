@@ -1,10 +1,10 @@
 const httpCodes = require('../constants/constants');
-const { Members } = require('../models/index');
+const { Member } = require('../models/index');
 
 const newMembers = async (req, res, next) => {
     try {
         const { name, image } = req.body;
-        const response = await Members.create({
+        const response = await Member.create({
             name,
             image
         });
