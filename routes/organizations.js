@@ -1,18 +1,15 @@
-const express = require("express");
-const httpCodes = require("../constants/constants");
+const express = require('express');
+const httpCodes = require('../constants/constants');
+const db = require('../models/index.js');
 const router = express.Router();
-const organizations = require("../mocks/organizationsMock");
 
-router.get("/:id/public", function (req, res, next) {
-  const { id } = req.params;
-
-  const organizerProfile = organizations.find((t) => t.id == id);  
-
-  if (!organizerProfile) {
-    return res.status(httpCodes.NOT_FOUND).json({msg: "the organizer is not found"});
+router.get('/public', async function (req, res, next) {
+  try {
+    const result = await db.Organizations.findAll();
+    res.status(httpCodes.OK).json(result);
+  } catch (error) {
+    res.status(httpCodes.BAD_REQUEST).json({ error });
   }
-
-  return res.status(httpCodes.OK).json(organizerProfile);
 });
 
 module.exports = router;
