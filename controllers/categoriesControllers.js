@@ -43,8 +43,38 @@ const addCategory = async function(req, res){
     }
 }
 
+const setCategory = async (req, res) => {
+    const { name, description } = req.body;
+
+    try {
+        const response = await Categories.update({
+            name,
+            description
+        }, {
+            where: {
+                id: req.params.id
+            }
+        })
+        if(response) { 
+            return res.status(httpCodes.OK).json({
+                msg: "Category updated successfully."
+            })
+        }
+
+        return res.status(httpCodes.BAD_REQUEST).json({
+            msg: "Action not completed. Please, try again."
+        })
+    } catch (error) {
+        return res.status(httpCodes.INTERNAL_SERVER_ERROR).json({
+            error,
+            msg: "An error occurred in the server."
+        })
+    }
+}
+
 module.exports = {
     getCategories,
     deleteCategory,
-    addCategory
+    addCategory,
+    setCategory
 };
