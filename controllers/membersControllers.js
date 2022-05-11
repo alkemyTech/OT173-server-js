@@ -21,6 +21,21 @@ const newMembers = async (req, res, next) => {
 };
 
 
+const getMembers = async(req, res)=>{
+    
+    try {
+        const resp = await Member.findAll({raw: true})    
+        res.status(httpCodes.OK).json({members: resp})
+        
+    } catch (error) {
+        return res
+        .status(httpCodes.BAD_REQUEST)
+        .json({ ok: false, error });       
+    }
+}
+
+
 module.exports = {
-    newMembers
+    newMembers,
+    getMembers
 };
