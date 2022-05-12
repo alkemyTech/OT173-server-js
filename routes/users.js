@@ -81,10 +81,12 @@ router.post('/auth/login', validationLogin, async function (req, res) {
     const token = createToken(userConfirm);
 
     if (token?.ok) {
-      return res.status(httpCodes.OK).json({ token: token, user: userConfirm });
+      return res
+        .status(httpCodes.OK)
+        .json({ token: token.token, user: userConfirm });
     }
 
-    return res.status(httpCodes.UNAUTHORIZED).json({ msg: 'Invalid token' });
+    return res.status(httpCodes.UNAUTHORIZED).json({ msg: token.msg });
   } catch (error) {
     res.status(httpCodes.BAD_REQUEST).json({ error, ok: false });
   }
