@@ -34,7 +34,7 @@ const getMembers = async(req, res)=>{
     }
 }
 
-const editMembers = async(req, res)=>{
+const updateMembers = async(req, res)=>{
     
     const { name, image } = req.body;
 
@@ -69,5 +69,5 @@ const editMembers = async(req, res)=>{
 module.exports = {
     newMembers,
     getMembers,
-    editMembers
+    updateMembers
 };
