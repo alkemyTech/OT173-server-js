@@ -27,6 +27,7 @@ const createUser = async (req, res, next) => {
       firstName,
       email,
       password: passwordHash,
+      roleId: 2,
     });
 
     await sendMail({
