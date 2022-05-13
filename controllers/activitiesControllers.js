@@ -1,5 +1,4 @@
 const { Activity } = require('../models/index.js');
-
 const httpCodes = require('../constants/constants');
 
 const getActivities = async function (req, res) {
@@ -46,8 +45,48 @@ const editActivity = async function (req, res) {
   }
 }
 
+const createActivity = async (req, res) => {
+
+  const { name, image, content } = req.body;
+
+  try {
+    if (req.body) {
+      const newActivity = await Activity.create({
+        name,
+        image,
+        content
+      })
+
+      if (!newActivity) {
+        res.status(httpCodes.BAD_REQUEST)
+          .json({
+            msg: "Activity not created",
+            newActivity
+          })
+      }
+
+      res.status(httpCodes.OK)
+        .json({
+          msg: "Activity created successfully.",
+          newActivity
+        })
+    } else {
+      res.status(httpCodes.NOT_FOUND)
+        .json({ msg: "You must enter name and content fields." })
+    }
+
+  } catch (error) {
+    res.status(httpCodes.FORBIDDEN)
+      .json({
+        error,
+        msg: "An error occurred. Try again."
+      })
+  }
+}
+
 module.exports = {
   getActivities,
   getActivity,
-  editActivity
+  editActivity,
+  createActivity
 };
