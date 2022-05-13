@@ -34,8 +34,40 @@ const getMembers = async(req, res)=>{
     }
 }
 
+const updateMembers = async(req, res)=>{
+    
+    const { name, image } = req.body;
+
+    try {
+        const response = await Member.update({
+            name,
+            image
+        }, {
+            where: {
+                id: req.params.id
+            }
+        })
+        if(response) { 
+            return res.status(httpCodes.OK).json({
+                msg: "Member updated successfully."
+            })
+        }
+
+        return res.status(httpCodes.BAD_REQUEST).json({
+            msg: "Your browser sent a request that this server could not understand."
+        })
+    } catch (error) {
+        return res.status(httpCodes.INTERNAL_SERVER_ERROR).json({
+            error,
+            msg: "An error occurred in the server."
+        })
+    }
+}
+
+
 
 module.exports = {
     newMembers,
-    getMembers
+    getMembers,
+    updateMembers
 };
