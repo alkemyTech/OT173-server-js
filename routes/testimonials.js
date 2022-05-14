@@ -1,5 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const {authRole} = require("../middlewares/authorizationMiddleware.js")
+const {
+  updateTestimonial,
+  deleteTestimonial
+} = require('../controllers/testimonialsControllers.js');
 const httpCodes = require("../constants/constants.js");
 const validationTestimonial = require("../validations/validationsTestimonial.js");
 const {Testimonial} = require("../models/index.js");
@@ -28,5 +33,7 @@ router.post('/',validationTestimonial ,async function (req, res, next) {
 });
 
 router.put('/:id', updateTestimonial);
+
+router.delete('/:id',authRole,deleteTestimonial)
 
 module.exports = router;
