@@ -64,10 +64,24 @@ const updateMembers = async(req, res)=>{
     }
 }
 
-
+const deleteMember = async (req,res)=>{
+    const {name} = req.body
+    try{
+        const deletedMember = await Member.destroy({
+            where:{
+                name
+            }
+        })
+        if(!deletedMember) return res.status(httpCodes.NOT_FOUND).json({ok:false,message:"Member not found"})
+        res.status(httpCodes.OK).json({ok:true,message:"Member deleted!"})
+    }catch(err){
+        res.status(httpCodes.BAD_REQUEST).json({ok:false,message:err.message})
+    }
+}
 
 module.exports = {
     newMembers,
     getMembers,
+    deleteMember,
     updateMembers
 };
