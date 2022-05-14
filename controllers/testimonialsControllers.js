@@ -28,4 +28,25 @@ const updateTestimonial = async (req, res) => {
   }
 };
 
-module.exports = { updateTestimonial };
+const deleteTestimonial = async (req,res)=>{
+  const { id } = req.params;
+  try {
+    const testimonial = await Testimonial.findByPk(id);
+    if (!testimonial) {
+      return res
+        .status(httpCodes.NOT_FOUND)
+        .json({ ok: false, msg: 'Testimonial not found' });
+    }
+    const deleteTestimonial = await testimonial.destroy()
+    return res
+      .status(httpCodes.OK)
+      .json({ ok: true, testimonial: deleteTestimonial.dataValues });
+  } catch (error) {
+    return res.status(httpCodes.INTERNAL_SERVER_ERROR).json({
+      ok: false,
+      error,
+    });
+  }
+}
+
+module.exports = { updateTestimonial,deleteTestimonial };
