@@ -11,9 +11,9 @@ chai.use(chaiHttp);
 const STANDARD_USER_TOKEN = process.env.TEST_STANDARD_USER_TOKEN;
 const ADMIN_USER_TOKEN = process.env.TEST_ADMIN_USER_TOKEN;
 
-describe('Contacts API', () => {
+describe('Test Contacts API', () => {
   describe('GET /contacts', () => {
-    it('should return unauthorized for guests', done => {
+    it('should return unauthorized (401) for guests', done => {
       chai
         .request(server)
         .get('/contacts')
@@ -23,7 +23,7 @@ describe('Contacts API', () => {
         });
     });
 
-    it('should return unauthorized for standard user', done => {
+    it('should return unauthorized (401) for standard user', done => {
       chai
         .request(server)
         .get('/contacts')
@@ -34,7 +34,7 @@ describe('Contacts API', () => {
         });
     });
 
-    it('should return all contacts', done => {
+    it('should return all contacts with ok status (200)', done => {
       chai
         .request(server)
         .get('/contacts')
@@ -49,6 +49,55 @@ describe('Contacts API', () => {
             res.body[0].should.have.property('phone');
             res.body[0].should.have.property('message');
           }
+          done();
+        });
+    });
+  });
+
+  describe('POST /contacts', () => {
+    it('should return bad request (400) because bad email format', done => {
+      chai
+        .request(server)
+        .post('/contacts')
+        .send({
+          name: 'User Test',
+          phone: '+5492612345678',
+          email: 'test@test',
+          message: 'User test message',
+        })
+        .end((err, res) => {
+          res.should.have.status(httpCodes.BAD_REQUEST);
+          done();
+        });
+    });
+
+    it('should return bad request (400) because no name', done => {
+      chai
+        .request(server)
+        .post('/contacts')
+        .send({
+          phone: '+5492612345678',
+          email: 'test@test.test',
+          message: 'User test message',
+        })
+        .end((err, res) => {
+          res.should.have.status(httpCodes.BAD_REQUEST);
+          done();
+        });
+    });
+
+    it('should return ok status (200) even for guests', done => {
+      chai
+        .request(server)
+        .post('/contacts')
+        .send({
+          name: 'User Test',
+          phone: '+5492612345678',
+          email: 'test@test.test',
+          message: 'User test message',
+        })
+        .end((err, res) => {
+          res.should.have.status(httpCodes.OK);
           done();
         });
     });
