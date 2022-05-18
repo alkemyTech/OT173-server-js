@@ -9,7 +9,7 @@ const {
 const validationCategory = require('../validations/validationCategory');
 
 router.post('/', validationCategory, addCategory)
-router.put('/:id', validationCategory, setCategory)
+router.patch('/:id', validationCategory, setCategory)
 router.delete('/:id', deleteCategory);
 router.get('/', getCategories);
 
