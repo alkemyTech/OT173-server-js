@@ -17,6 +17,8 @@ npx sequelize-cli db:migrate
 ```
 
 4) Seeders:
+
+Users password: "12345678"
 ``` bash
 npx sequelize-cli db:seed:all
 ```
