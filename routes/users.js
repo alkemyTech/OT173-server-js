@@ -7,6 +7,7 @@ const httpCodes = require('../constants/constants');
 const { createToken, verifyToken } = require('../auth/auth');
 const jwt = require('jsonwebtoken');
 const { authRole } = require('../middlewares/authorizationMiddleware');
+const { updateUser } = require('../controllers/userController');
 
 /* GET users listing. */
 router.get('/', authRole, async (req, res, next) => {
@@ -86,6 +87,25 @@ router.post('/auth/login', validationLogin, async function (req, res) {
         .json({ token: token.token, user: userConfirm });
     }
 
+    return res.status(httpCodes.UNAUTHORIZED).json({ msg: token.msg });
+  } catch (error) {
+    res.status(httpCodes.BAD_REQUEST).json({ error, ok: false });
+  }
+});
+
+router.put('/:id', validationLogin, updateUser, async function (req, res) {
+  const { id } = req.params;
+  try {
+    const user = await db.User.findByPk(id);
+
+    const { ...userUpdate } = user.dataValues;
+    const token = createToken(userUpdate);
+
+    if (token?.ok) {
+      return res
+        .status(httpCodes.OK)
+        .json({ token: token.token, user: userUpdate });
+    }
     return res.status(httpCodes.UNAUTHORIZED).json({ msg: token.msg });
   } catch (error) {
     res.status(httpCodes.BAD_REQUEST).json({ error, ok: false });
