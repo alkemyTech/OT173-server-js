@@ -38,14 +38,8 @@ const createUser = async (req, res, next) => {
       message: mailWhenUserSingUp.message,
     });
 
-    res.status(httpCodes.OK).json({
-      ok: true,
-      msg: 'Usuario registrado con éxito',
-      user: firstName,
-      lastName,
-      email,
-      passwordHash,
-    });
+   
+    next();
   } catch (error) {
     res.status(httpCodes.BAD_REQUEST).json({ error, ok: false });
   }
