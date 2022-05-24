@@ -34,19 +34,21 @@ const getActivity = async function (req, res) {
 
 const editActivity = async function (req, res) {
   try {
-    await Activity.update({
-      name: req.body.name,
-      image: req.body.image,
-      content: req.body.content
-    }, { where: { id: req.params.id } })
-    res.sendStatus(httpCodes.OK)
+    await Activity.update(
+      {
+        name: req.body.name,
+        image: req.body.image,
+        content: req.body.content,
+      },
+      { where: { id: req.params.id } }
+    );
+    res.sendStatus(httpCodes.OK);
   } catch (error) {
-    res.status(httpCodes.INTERNAL_SERVER_ERROR).send(error)
+    res.status(httpCodes.INTERNAL_SERVER_ERROR).send(error);
   }
-}
+};
 
 const createActivity = async (req, res) => {
-
   const { name, image, content } = req.body;
 
   try {
@@ -54,39 +56,60 @@ const createActivity = async (req, res) => {
       const newActivity = await Activity.create({
         name,
         image,
-        content
-      })
+        content,
+      });
 
       if (!newActivity) {
-        res.status(httpCodes.BAD_REQUEST)
-          .json({
-            msg: "Activity not created",
-            newActivity
-          })
+        res.status(httpCodes.BAD_REQUEST).json({
+          msg: 'Activity not created',
+          newActivity,
+        });
       }
 
-      res.status(httpCodes.OK)
-        .json({
-          msg: "Activity created successfully.",
-          newActivity
-        })
+      res.status(httpCodes.OK).json({
+        msg: 'Activity created successfully.',
+        newActivity,
+      });
     } else {
-      res.status(httpCodes.NOT_FOUND)
-        .json({ msg: "You must enter name and content fields." })
+      res
+        .status(httpCodes.NOT_FOUND)
+        .json({ msg: 'You must enter name and content fields.' });
+    }
+  } catch (error) {
+    res.status(httpCodes.FORBIDDEN).json({
+      error,
+      msg: 'An error occurred. Try again.',
+    });
+  }
+};
+
+const deleteActivity = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const activity = await Activity.findByPk(id);
+
+    if (!activity) {
+      return res
+        .status(httpCodes.NOT_FOUND)
+        .json({ msg: 'Activity not found' });
     }
 
+    await activity.destroy();
+
+    return res.status(httpCodes.OK).json({ msg: 'Activity deleted' });
   } catch (error) {
-    res.status(httpCodes.FORBIDDEN)
-      .json({
-        error,
-        msg: "An error occurred. Try again."
-      })
+    res.status(httpCodes.INTERNAL_SERVER_ERROR).json({
+      error,
+      msg: 'An error occurred. Try again.',
+    });
   }
-}
+};
 
 module.exports = {
   getActivities,
   getActivity,
   editActivity,
-  createActivity
+  createActivity,
+  deleteActivity,
 };
