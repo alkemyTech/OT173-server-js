@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "test": "mocha"
   },
   "dependencies": {
     "aws-sdk": "^2.1120.0",
@@ -24,6 +25,9 @@
     "sequelize": "^6.19.0"
   },
   "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.0.0",
     "nodemon": "^2.0.15",
     "sequelize-cli": "^6.2.0"
   }
