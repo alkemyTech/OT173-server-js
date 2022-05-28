@@ -14,7 +14,7 @@ const deleteCategory = async function (req, res) {
 const getCategories = async function (req, res) {
     try {
         const categories = await Categories.findAll({
-            attributes: ['name'],
+            attributes: ['name', 'id'],
         });
 
         if (!categories) {
