@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "test": "jest"
+    "testJest": "jest",
+    "test": "mocha"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.6.2",
@@ -26,6 +27,9 @@
   },
   "devDependencies": {
     "jest": "^28.1.0",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.0.0",
     "nodemon": "^2.0.15",
     "sequelize-cli": "^6.2.0",
     "supertest": "^6.2.3"
