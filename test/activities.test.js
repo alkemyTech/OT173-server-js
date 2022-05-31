@@ -59,6 +59,7 @@ describe('#2 Endpoint Activites', () => {
     });
   });
 });
+
 describe('#3 Endpoint Activites', () => {
   describe('PUT /activities', () => {
     it('should response 200 status code', done => {
@@ -88,6 +89,7 @@ describe('#3 Endpoint Activites', () => {
     });
   });
 });
+
 describe('#4 Endpoint Activites', () => {
   describe('DELETE /activities', () => {
     it('should response 200 status code', done => {
