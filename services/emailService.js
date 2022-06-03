@@ -5,8 +5,8 @@ const sendMail = async ({ name, surname, email, message, subject, recipient }) =
     const msg = {
         to: recipient || email,
         from: {
-            name: 'Somos Mas',
-            email: 'juanmhdz99@gmail.com'
+            name: 'tomi1368',
+            email: 'tomirodriguez1368@gmail.com'
         },
         subject: subject,
         text: `${name && surname && email ? `Nombre: ${name} Apellido: ${surname} E-mail: ${email} ${message}` : message}`
